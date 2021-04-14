@@ -1,10 +1,11 @@
 import numpy as np
-from Turbo.helpers import generator_function,de2bi
+from Turbo.helpers import generator_function,de2bi,bi2de
+from Turbo.encoders import rsc_encoder,state_table,state_transitions
 N=256
 Niter=32
 frames=10
-gen_func=generator_function(37,21)
-de2bi(gen_func)
+gen_func=generator_function(5,7)
+#print(gen_func)
 n=gen_func.shape[0]
 K=gen_func.shape[1]
 M=K-1
@@ -20,6 +21,13 @@ yre2=[0,68,152,188,17,101,137,221,50,86,170,238,115,199,11,95,144,212,40,76,161,
 frame_error_limit=20
 
 interleaver=np.array([yre2])+1
+sys,parity,end_state=rsc_encoder(np.array([1,0,0,0,0,0],dtype=int),gen_func,0)
+
+#print(sys,parity,end_state)
+st=state_table(gen_func)
+#print(st)
+node_tr=state_transitions(gen_func)
+print(node_tr)
 """
 for EbNo_index in range(len(EbNo_dB)):
     no_bit_err = np.zeros((interleaver.shape[0],Niter)); # number of bit errrors
